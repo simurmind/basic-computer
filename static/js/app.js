@@ -6,7 +6,8 @@ const REGISTER_DEFS = [
 ];
 
 const DEFAULT_PROGRAM =
-`/ ORG 0
+`/ 
+ORG 0
 LDA A
 ADD B
 STA C
