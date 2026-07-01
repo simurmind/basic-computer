@@ -6,16 +6,15 @@ const REGISTER_DEFS = [
 ];
 
 const DEFAULT_PROGRAM =
-`/ Basic Computer demo: C = A + B
-        ORG 0
-        LDA A
-        ADD B
-        STA C
-        HLT
-A,      DEC 5
-B,      DEC 3
-C,      DEC 0
-        END
+`/ ORG 0
+LDA A
+ADD B
+STA C
+HLT
+A, DEC 5
+B, DEC 3
+C, DEC 0
+END
 `;
 
 let lastMachineCode = { start_addr: 0, machine_code: [] };
