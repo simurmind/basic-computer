@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شبیه‌ساز کامپیوتر پایه &mdash; معماری کامپیوتر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="rail" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">BC</span>
+    <div class="brand-text">
+      <h1>شبیه‌ساز کامپیوتر پایه</h1>
+      <p>درس معماری کامپیوتر &middot; استاد تیمور ایزدی</p>
+    </div>
+  </div>
+
+  <div class="cycle-indicator" id="cycleIndicator">
+    <div class="cycle-step" data-phase="FETCH"><span class="dot"></span>FETCH</div>
+    <div class="cycle-step" data-phase="DECODE"><span class="dot"></span>DECODE</div>
+    <div class="cycle-step" data-phase="INDIRECT"><span class="dot"></span>INDIRECT</div>
+    <div class="cycle-step" data-phase="EXECUTE"><span class="dot"></span>EXECUTE</div>
+  </div>
+
+  <div class="run-state" id="runState">
+    <span class="led" id="runLed"></span>
+    <span id="runLabel">RUNNING</span>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- REGISTERS + BUS -->
+  <section class="panel registers-panel">
+    <div class="panel-head">
+      <h2>رجیسترها</h2>
+      <span class="panel-sub">Common Bus</span>
+    </div>
+
+    <div class="bus-rail" id="busRail">
+      <div class="bus-line"></div>
+      <div class="bus-pulse" id="busPulse"></div>
+      <div class="bus-label" id="busLabel">&mdash;</div>
+    </div>
+
+    <div class="register-grid" id="registerGrid">
+      <!-- populated by JS -->
+    </div>
+
+    <div class="status-strip">
+      <div class="flag" id="flagE"><span class="flag-name">E</span><span class="flag-val">0</span></div>
+      <div class="flag" id="flagI"><span class="flag-name">I</span><span class="flag-val">0</span></div>
+      <div class="flag" id="flagIEN"><span class="flag-name">IEN</span><span class="flag-val">0</span></div>
+      <div class="flag" id="flagFGI"><span class="flag-name">FGI</span><span class="flag-val">0</span></div>
+      <div class="flag" id="flagFGO"><span class="flag-name">FGO</span><span class="flag-val">0</span></div>
+      <div class="flag mnemonic" id="flagMnemonic"><span class="flag-name">دستور</span><span class="flag-val">&mdash;</span></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="btnAssemble">Assemble</button>
+      <button class="btn btn-accent" id="btnLoad">Load Program</button>
+      <button class="btn btn-ghost" id="btnStep">Step</button>
+      <button class="btn btn-ghost" id="btnRun">Run</button>
+      <button class="btn btn-danger" id="btnReset">Reset</button>
+    </div>
+  </section>
+
+  <!-- CODE EDITOR -->
+  <section class="panel editor-panel">
+    <div class="panel-head">
+      <h2>ویرایش‌گر اسمبلی</h2>
+      <span class="panel-sub" id="asmStatus">آماده</span>
+    </div>
+    <div class="editor-wrap">
+      <div class="line-numbers" id="lineNumbers">1</div>
+      <textarea id="codeEditor" spellcheck="false" dir="ltr"></textarea>
+    </div>
+    <div class="asm-errors" id="asmErrors"></div>
+    <div class="listing" id="listing"></div>
+  </section>
+
+  <!-- MEMORY VIEW -->
+  <section class="panel memory-panel">
+    <div class="panel-head">
+      <h2>حافظه</h2>
+      <input type="text" id="memSearch" class="mem-search" placeholder="جست‌وجوی آدرس (Hex)">
+    </div>
+    <div class="memory-table-wrap">
+      <table class="memory-table">
+        <thead>
+          <tr><th>آدرس</th><th>Hex</th><th>Binary</th></tr>
+        </thead>
+        <tbody id="memoryBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- LOG PANEL -->
+  <section class="panel log-panel">
+    <div class="panel-head">
+      <h2>تاریخچه چرخه ساعت</h2>
+      <span class="panel-sub" id="cycleCount">0 cycles</span>
+    </div>
+    <div class="log-list" id="logList"></div>
+  </section>
+
+</main>
+
+<footer class="footnote">
+  Basic Computer Simulator &middot; Mano Architecture &middot; AC / PC / AR / DR / IR / TR / SC / E
+</footer>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
